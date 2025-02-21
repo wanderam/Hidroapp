@@ -1,0 +1,7 @@
+branca==0.7.2
+folium==0.17.0
+geopandas==1.0.1
+pandas==2.2.3
+plotly==5.23.0
+streamlit==1.37.1
+streamlit_folium==0.22.0
