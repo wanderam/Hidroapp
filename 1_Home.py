@@ -25,26 +25,27 @@ st.sidebar.image(logo, width=100)
 
 ###############################################################################
 
-col1, col2 = st.columns([0.3, 0.7])
+# col1, col2 = st.columns([0.3, 0.7])
 
-with col1:
-    st.title('Informações')
-    st.markdown(
+st.title('Informações')
+st.markdown(
         """
-        Este aplicativo foi desenvolvido para divulgar os resultados da tese desenvolvida no PPG-IAC\n
+        Este aplicativo foi desenvolvido para divulgar os resultados da tese intitulada "DESEMPENHO DO MODELO SWAT NA ESTIMATIVA DE FLUXOS SUBTERRÂNEOS NAS BACIAS HIDROGRÁFICAS DOS RIOS PIRACICABA, CAPIVARI E JUNDIAÍ: UMA ANÁLISE DO FLUXO DE BASE E DA RECARGA DE AQUÍFERO" desenvolvida no PPG-IAC\n
         * Página "Fluxo de base": Apresenta as séries temporais de vazão e fluxo de base da bacia hidrográfica selecionada
-        * Página "Recarga": mostra os mapas de recarga de aquífero para a bacia hidrográfica selecionada.
+        * Página "Recarga": mostra os mapas de recarga de aquífero para a bacia hidrográfica selecionada
 
         """
     )
 
-    st.markdown('Página do [Instituto Agronômico de Campinas](%s)' % 'https://www.iac.sp.gov.br/')
-    st.markdown('Página da [PG-IAC](%s)' % 'https://www.iac.sp.gov.br/areadoinstituto/posgraduacao/')
+st.markdown('Página do [Instituto Agronômico de Campinas](%s)' % 'https://www.iac.sp.gov.br/')
+st.markdown('Página da [PG-IAC](%s)' % 'https://www.iac.sp.gov.br/areadoinstituto/posgraduacao/')
     
 ###############################################################################
+st.divider()
 
-col2.header('Sub-bacias :red[PCJ]')
-col2.markdown('Utilize o mapa interativo abaixo para localizar as sub-bacias PCJ')
+
+st.header('Sub-bacias :red[PCJ]')
+st.markdown('Utilize o mapa interativo abaixo para localizar as sub-bacias PCJ')
 
 subs_pcj = gpd.read_file('subs_pcj.geojson')                # Camada original --> C:\Users\swat\Documents\app_vazao\subs_pcj.geojson
 drenagem = gpd.read_file('rede_drenagem.geojson')           # Camada de drenagem também está simplificada
@@ -121,8 +122,7 @@ folium.LayerControl(collapsed=False).add_to(m)
 #Manter o fundo branco em frente ao tile cartodbpositron, quando for utilizar o background branco
 # m.keep_in_front(white_BG)
 
-with col2:
-    st_mapa = st_folium(m, width=1000, height=600, use_container_width=True, returned_objects=[])    # Ver sobre "returned_objects" em https://folium.streamlit.app/static_map
+st_mapa = st_folium(m, width=1000, height=600, use_container_width=True, returned_objects=[])    # Ver sobre "returned_objects" em https://folium.streamlit.app/static_map
 
 
 #CRS da camada
