@@ -43,7 +43,7 @@ with col1:
     
 ###############################################################################
 
-col2.header('Sub-bacias :blue[PCJ]')
+col2.header('Sub-bacias :red[PCJ]')
 col2.markdown('Utilize o mapa interativo abaixo para localizar as sub-bacias PCJ')
 
 subs_pcj = gpd.read_file('subs_pcj.geojson')                # Camada original --> C:\Users\swat\Documents\app_vazao\subs_pcj.geojson
