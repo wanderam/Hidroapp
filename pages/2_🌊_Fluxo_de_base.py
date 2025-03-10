@@ -1,26 +1,17 @@
 import pandas as pd
 import streamlit as st
-import datetime as dt
-from datetime import datetime, timedelta
+# import datetime as dt
+# from datetime import datetime, timedelta
 import plotly.express as px
-import plotly.graph_objects as go
+# import plotly.graph_objects as go
 
 
 #Configurando a página do app streamlit
 st.set_page_config(
-    page_title='Hidroapp',
+    page_title='Fluxo base',
     layout='wide',
     initial_sidebar_state='expanded'
 )
-
-markdown = """
-Esta página exibe dados de fluxo de base.
-"""
-
-st.sidebar.title('Sobre')
-st.sidebar.info(markdown)
-# logo = 'pages/Logo_IAC_d400.jpg'
-# st.sidebar.image(logo, width=100)
 
 ###############################################################################
 
@@ -111,13 +102,10 @@ data_formatada = df3['Date'].dt.strftime('%Y-%m-%d')    # %Y/%b/%d --> Sigla do 
 df3['Date'] = data_formatada[0:]
 ###############################################################################
 
-
-
-
 #Elementos da página principal
 
 #st.title(f'Daily streamflow and baseflow time series - Watershed: {watershed_select}')
-st.subheader(f'Bacia: {watershed_select} | Período: **{from_date.strftime('%d/%b/%Y')}** a **{to_date.strftime('%d/%b/%Y')}**')
+st.header(f'Bacia: {watershed_select} | Período de dados: **{from_date.strftime('%d/%b/%Y')}** a **{to_date.strftime('%d/%b/%Y')}**')
 
 col1, col2, col3, col4 = st.columns([0.2, 0.2, 0.2, 0.4])
 
