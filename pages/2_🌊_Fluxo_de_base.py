@@ -101,11 +101,30 @@ df3 = df2[df2['Date'].between(from_date, to_date)]
 data_formatada = df3['Date'].dt.strftime('%Y-%m-%d')    # %Y/%b/%d --> Sigla do mês    %Y-%m-%d --> Número do mês
 df3['Date'] = data_formatada[0:]
 ###############################################################################
-
 #Elementos da página principal
 
-#st.title(f'Daily streamflow and baseflow time series - Watershed: {watershed_select}')
-st.header(f'Bacia: {watershed_select} | Período de dados: **{from_date.strftime('%d/%b/%Y')}** a **{to_date.strftime('%d/%b/%Y')}**')
+st.header('Fluxo de base das sub-bacias PCJ')
+
+#Sobre Markdown:
+#Para quebrar uma linha sem adicionar espaço entre elas, adicione dois ou mais espaços ao final da primeira linha.
+#Para quebrar uma linha adicionando espaço entre elas, adicionar "\n" ao final da primeira linha.
+st.markdown("""
+            Séries temporais de vazão observada e fluxo de base estimado para as sub-bacias Capivari, Corumbataí e Jundiaí-Mirim.  
+                        
+            :green-background[**Instruções:**:point_down:]
+
+            * Utilize a caixa de seleção ao lado para selecionar a sub-bacia desejada.
+            * Escolha uma data inicial e final no :calendar: ao lado para visualizar um período específico da série.
+            * Visualize as séries no gráfico interativo :chart_with_upwards_trend: abaixo. Obs.: é possível baixar o gráfico no formato .png.
+            * Ao final da página pode-se visualizar os dados em uma tabela interativa e baixá-los no formato .csv.
+
+            """)
+
+st.divider()
+
+
+st.subheader(f'Bacia: {watershed_select} | Período de dados: **{from_date.strftime('%d/%b/%Y')}** a **{to_date.strftime('%d/%b/%Y')}**')
+
 
 col1, col2, col3, col4 = st.columns([0.2, 0.2, 0.2, 0.4])
 
@@ -156,56 +175,45 @@ with col4:
 
     st.image(map, width=400)
 
-
-# st.dataframe(df3)
 st.divider()
 
-col5, col6 = st.columns([0.8, 0.2])
-
-with col5:
-    #st.subheader('Series hydrograph')
-    #st.markdown(f'Selected data from: **{from_date.strftime('%d/%b/%Y')}** to **{to_date.strftime('%d/%b/%Y')}**')
-    graf_plotly = fig = px.line(df3, x='Date', y=['streamflow', 'baseflow'], color_discrete_sequence=['deepskyblue', 'indianred'],
+#Gráfico plotly das séries de vazão e fluxo de base
+graf_plotly = fig = px.line(df3, x='Date', y=['streamflow', 'baseflow'], color_discrete_sequence=['deepskyblue', 'indianred'],
                             labels={'Date': 'Date', 'streamflow': 'Streamflow', 'baseflow': 'B'},    #Não está dando certo aqui
                             markers=False,
                             height=400,
                             width=800)
-    fig.update_traces(line_width=1)
-    fig.update_yaxes(title_text='<b>Fluxo (m<sup>3</sup> s<sup>-1</sup>)</b>', title_font={"size": 14}, range=[0, None])
-    fig.update_xaxes(title_text='<b>Tempo</b>', title_font={"size": 14})
-    fig.update_layout(template='plotly', legend_title='<b>Legenda</b>')    # plotly_dark    simple_white
-    fig.update_layout(legend=dict(font=dict(family='arial', size=14, color='dimgray')),
+fig.update_traces(line_width=1)
+fig.update_yaxes(title_text='<b>Fluxo (m<sup>3</sup> s<sup>-1</sup>)</b>', title_font={"size": 14}, range=[0, None])
+fig.update_xaxes(title_text='<b>Tempo</b>', title_font={"size": 14})
+fig.update_layout(template='plotly', legend_title='<b>Legenda</b>')    # plotly_dark    simple_white
+fig.update_layout(legend=dict(font=dict(family='arial', size=14, color='dimgray')),
                     legend_title = dict(font=dict(family='arial', size=16, color='dimgray')))    # Century Gothic
-    fig.add_hline(y=df2['streamflow'].mean(), line_color='red', line_width=1, line_dash='dash')
+fig.add_hline(y=df2['streamflow'].mean(), line_color='red', line_width=1, line_dash='dash')
 
-    #Para alterar os nomes das variáveis
-    newlabels = {'streamflow': 'Vazão', 'baseflow': 'Fluxo base'}
-    fig.for_each_trace(lambda t: t.update(name = newlabels[t.name],
+#Para alterar os nomes das variáveis
+newlabels = {'streamflow': 'Vazão', 'baseflow': 'Fluxo base'}
+fig.for_each_trace(lambda t: t.update(name = newlabels[t.name],
                                           legendgroup = newlabels[t.name],
                                           hovertemplate = t.hovertemplate.replace(t.name, newlabels[t.name])
                                           )
                   )
 
-    st.plotly_chart(graf_plotly, use_container_width=True)
+#Para exibir o gráfico plotly no app streamlit
+st.plotly_chart(graf_plotly, use_container_width=True)
 
 
-#Dataframe dos dados
-with col6:
-    #st.subheader('Data table')
-    #st.markdown(f'Selected data from: **{from_date.strftime('%d/%b/%Y')}** to **{to_date.strftime('%d/%b/%Y')}**')
-
-    #@st.cache --> colocar essa linha de código no lugar certo para carregar os dados apenas uma vez
-    def convert_df(df3):
-        return df3.to_csv(index=False, float_format='%.2f', columns=['Date', 'streamflow', 'baseflow']).encode('utf-8')
-
-    csv = convert_df(df3)
-
-    st.dataframe(df3, width=250, height=300, hide_index=True, column_order=('Date', 'streamflow', 'baseflow'), use_container_width=True,
+#Para exibir um df com os dados selecionados pelo usuário
+st.dataframe(df3, width=300, height=400, hide_index=True, column_order=('Date', 'streamflow', 'baseflow'), use_container_width=False,
                  column_config={'Date': st.column_config.DatetimeColumn('Data', format="DD/MMM/YYYY"),
                                 'streamflow': st.column_config.NumberColumn('Vazão', help="Série vazão", format='%.1f'),
                                 'baseflow': st.column_config.NumberColumn('Fluxo base', help="Série fluxo de base", format='%.1f')})
-    
-    st.download_button('Baixar csv', csv, f'{watershed_select}'+'_dataset'+'.csv', 'text/csv', key='browser-data')    # O rótulo do botão era: Download csv
 
+#Convertendo o df para .csv para ser baixado através do botão
+def convert_df(df3):
+    return df3.to_csv(index=False, float_format='%.2f', columns=['Date', 'streamflow', 'baseflow']).encode('utf-8')
 
-# st.dataframe(df3)
+csv = convert_df(df3)
+
+#Exibir o botão para baixar o arquivo .csv
+st.download_button('Baixar csv', csv, f'{watershed_select}'+'_dataset'+'.csv', 'text/csv', key='browser-data')    # O rótulo do botão era: Download csv

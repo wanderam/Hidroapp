@@ -12,10 +12,8 @@ st.set_page_config(
 
 #Texto na sidebar de apresentação do app
 markdown = """
-Este aplicativo exibe os resultados da pesquisa desenvolvida no PPG-IAC
+Este aplicativo via web exibe os resultados de uma pesquisa desenvolvida no PPG-IAC.
 
-IAC: <https://www.iac.sp.gov.br/>\n
-PPG-IAC: <https://www.iac.sp.gov.br/areadoinstituto/posgraduacao/>
 """
 
 st.sidebar.title('Sobre')
@@ -25,23 +23,21 @@ st.sidebar.image(logo, width=100)
 
 ###############################################################################
 
-# col1, col2 = st.columns([0.3, 0.7])
-
 st.title('Informações')
 
 st.markdown(
         """
-        Este aplicativo foi desenvolvido para divulgar os resultados da tese intitulada "DESEMPENHO DO MODELO SWAT NA ESTIMATIVA DE FLUXOS SUBTERRÂNEOS NAS BACIAS HIDROGRÁFICAS
-        DOS RIOS PIRACICABA, CAPIVARI E JUNDIAÍ: UMA ANÁLISE DO FLUXO DE BASE E DA RECARGA DE AQUÍFERO" desenvolvida no Programa de Pós-Graduação do Instituto Agronômico de
-        Campinas (IAC)\n
+        Este aplicativo foi desenvolvido para divulgar os resultados da tese intitulada
+        "DESEMPENHO DO MODELO HIDROLÓGICO SWAT NAS BACIAS HIDROGRÁFICAS DOS RIOS PIRACICABA, CAPIVARI E JUNDIAÍ: UMA ANÁLISE DO FLUXO DE BASE E DA RECARGA DE AQUÍFERO"
+        desenvolvida no Programa de Pós-Graduação do [Instituto Agronômico de Campinas (IAC)](https://www.iac.sp.gov.br/)\n
 
         :green-background[**Instruções:**:point_down:]
 
         * A página :ocean:**Fluxo de base** exibe as séries temporais de vazão e fluxo de base da bacia hidrográfica selecionada. As séries de fluxo de base foram
-        estimadas a partir de dados observados de vazão. O procedimento para separação foi realizado por meio da biblioteca Python ***Hydrograph-py*** (Terink, 2019).
+        estimadas a partir de dados observados de vazão. O procedimento para separação foi realizado por meio da biblioteca Python ***Hydrograph-py*** ([Terink W, 2019](https://app.readthedocs.org/projects/hydrograph-py/downloads/pdf/latest/)).
         * A página :earth_americas:**Recarga** exibe os mapas de recarga de aquífero para a bacia hidrográfica selecionada. Os dados de recarga foram estimados por meio
-        do modelo hidrológico ***SWAT-MODFLOW*** (Bailey et al. 2016).        
-        * Utilize o mapa interativo :world_map: abaixo para localizar as ***sub-bacias PCJ***, bem como visualizar sua hidrografia.
+        do modelo hidrológico ***SWAT-MODFLOW*** ([Bailey et al. 2016](https://onlinelibrary.wiley.com/doi/full/10.1002/hyp.10933)).        
+        * Utilize o mapa interativo :world_map: abaixo para localizar as **sub-bacias PCJ**, bem como visualizar sua hidrografia.
 
         """
     )
@@ -78,8 +74,13 @@ m = folium.Map(location=centro, tiles=None, control_scale=True, zoom_start=9, mi
 
 
 #Tiles
+
 # white_BG = folium.TileLayer(tiles=branca.utilities.image_to_url([[1,1], [1,1]]), attr='W', name='White mode', overlay=False, control=True).add_to(m)    # fundo branco
-folium.TileLayer('cartodbpositron', name='Basemap', overlay=False, control=True, min_zoom=7).add_to(m)    # Tile CartoDBpositron
+basemap_dark = folium.TileLayer('cartodbdark_matter', name = 'Basemap (escuro)', overlay=False, control=True, min_zoom=7).add_to(m)
+basemap_light = folium.TileLayer('cartodbpositron', name='Basemap (claro)', overlay=False, control=True, min_zoom=7).add_to(m)
+
+#Manter o basemap_light na frente
+m.keep_in_front(basemap_light)
 
 
 # Mapa das sub-bacias da PCJ
@@ -129,8 +130,6 @@ folium.GeoJson(drenagem, name='Drenagem', control=True, show=True, zoom_on_click
 #Adicionar painel de controle de camadas
 folium.LayerControl(collapsed=False).add_to(m)
 
-#Manter o fundo branco em frente ao tile cartodbpositron, quando for utilizar o background branco
-# m.keep_in_front(white_BG)
 
 st_mapa = st_folium(m, width=1000, height=600, use_container_width=False, returned_objects=[])    # Ver sobre "returned_objects" em https://folium.streamlit.app/static_map
 

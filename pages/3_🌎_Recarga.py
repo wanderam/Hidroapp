@@ -10,15 +10,6 @@ st.set_page_config(
     initial_sidebar_state='expanded'
 )
 
-markdown = """
-Esta página exibe mapas de recarga de aquífero.
-"""
-
-st.sidebar.title('Sobre')
-st.sidebar.info(markdown)
-# logo = 'pages/Logo_IAC_d400.jpg'
-# st.sidebar.image(logo, width=100)
-
 ###############################################################################
 
 #Criando a sidebar
@@ -50,9 +41,19 @@ else:
 
 
 st.header('Recarga de aquífero das sub-bacias PCJ')
+
+
+#Sobre Markdown:
+#Para quebrar uma linha sem adicionar espaço entre elas, adicione dois ou mais espaços ao final da primeira linha.
+#Para quebrar uma linha adicionando espaço entre elas, adicionar "\n" ao final da primeira linha.
 st.markdown("""
-            Mapas de recarga de aquífero em escala mensal das sub-bacias PCJ, considerando o de Janeiro de 1985 a Dezembro de 2020.
+            Mapas de recarga de aquífero média mensal das sub-bacias Atibaia Cabeceira, Camanducaia, Capivari, Corumbataí e Jundiaí.  
+            O período de modelagem considerado foi de Janeiro de 1985 a Dezembro de 2020.  
+            Dimensões da célula da grade do modelo: 250 x 250 m | Área total da célula: 62.500 m$^{2}$.
             
+            :green-background[**Instruções:**:point_down:]
+            * Utilize a caixa de seleção ao lado para selecionar a sub-bacia desejada.
+
             """)
 
 st.divider()
