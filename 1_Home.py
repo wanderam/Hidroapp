@@ -1,46 +1,55 @@
+#Bibliotecas necessárias
 import streamlit as st
 import geopandas as gpd
 import folium
 from streamlit_folium import st_folium
 # import branca
 
+#Configurando a página do app
 st.set_page_config(
     page_title='Info',
     layout='wide',
     initial_sidebar_state='expanded'
 )
 
-#Texto na sidebar de apresentação do app
-markdown = """
+#Texto e configurações da sidebar
+sidebar_markdown = """
 Este aplicativo via web exibe os resultados de uma pesquisa desenvolvida no PPG-IAC.
-
 """
 
 st.sidebar.title('Sobre')
-st.sidebar.info(markdown)
+st.sidebar.info(sidebar_markdown)
+st.sidebar.caption('Contate-me: wander.am.ufv@gmail.com')
+
+#Logo do IAC
 logo = 'Logo_IAC_d400.jpg'
 st.sidebar.image(logo, width=100)
 
 ###############################################################################
 
-st.title('Informações')
+#Configurações da página principal
+st.title('Informações sobre o app')
 
 st.markdown(
         """
         Este aplicativo foi desenvolvido para divulgar os resultados da tese intitulada
-        "DESEMPENHO DO MODELO HIDROLÓGICO SWAT NAS BACIAS HIDROGRÁFICAS DOS RIOS PIRACICABA, CAPIVARI E JUNDIAÍ: UMA ANÁLISE DO FLUXO DE BASE E DA RECARGA DE AQUÍFERO"
-        desenvolvida no Programa de Pós-Graduação do [Instituto Agronômico de Campinas (IAC)](https://www.iac.sp.gov.br/)\n
+        **"DESEMPENHO DO MODELO HIDROLÓGICO SWAT NAS BACIAS HIDROGRÁFICAS DOS RIOS PIRACICABA, CAPIVARI E JUNDIAÍ: UMA ANÁLISE DO ESCOAMENTO DE BASE E DA RECARGA DE AQUÍFERO"**
+        desenvolvida no Programa de Pós-Graduação do [Instituto Agronômico de Campinas (IAC)](https://www.iac.sp.gov.br/).\n
 
         :green-background[**Instruções:**:point_down:]
 
-        * A página :ocean:**Fluxo de base** exibe as séries temporais de vazão e fluxo de base da bacia hidrográfica selecionada. As séries de fluxo de base foram
-        estimadas a partir de dados observados de vazão. O procedimento para separação foi realizado por meio da biblioteca Python ***Hydrograph-py*** ([Terink W, 2019](https://app.readthedocs.org/projects/hydrograph-py/downloads/pdf/latest/)).
-        * A página :earth_americas:**Recarga** exibe os mapas de recarga de aquífero para a bacia hidrográfica selecionada. Os dados de recarga foram estimados por meio
+        * A página :ocean:**Escoamento de base** exibe as séries temporais de vazão e escoamento de base da bacia hidrográfica selecionada. As séries de escoamento de base foram
+        estimadas a partir de dados observados de vazão. O procedimento para separação foi realizado por meio da biblioteca Python ***Hydrograph-py*** ([Terink 2019](https://app.readthedocs.org/projects/hydrograph-py/downloads/pdf/latest/)).
+        * A página :earth_americas:**Recarga de aquifero** exibe os mapas de recarga de aquífero para a bacia hidrográfica selecionada. Os dados de recarga de aquífero foram estimados por meio
         do modelo hidrológico ***SWAT-MODFLOW*** ([Bailey et al. 2016](https://onlinelibrary.wiley.com/doi/full/10.1002/hyp.10933)).        
         * Utilize o mapa interativo :world_map: abaixo para localizar as **sub-bacias PCJ**, bem como visualizar sua hidrografia.
+        
 
         """
     )
+
+#Link da tese:
+# * Clique [aqui](https://www.iac.sp.gov.br/areadoinstituto/posgraduacao/agendaacademica.php) para ver o arquivo completo da tese.
 
 st.caption('Autores: Wander A. Martins, Letícia L. Martins e Jener Fernando Leite de Moraes')
 
@@ -66,7 +75,7 @@ m = folium.Map(location=centro, tiles=None, control_scale=True, zoom_start=9, mi
 
 #m.add_child(folium.LatLngPopup())
 
-#Adicionando Marcadores de círculo para visualizar os limites do mapa
+#Adicionando marcadores de círculo para visualizar os limites do mapa
 # folium.CircleMarker([max_lat, min_lon], color='navy', tooltip="Lower Right Corner").add_to(m)
 # folium.CircleMarker([min_lat, min_lon], color='navy', tooltip="Upper Right Corner").add_to(m)
 # folium.CircleMarker([min_lat, max_lon], color='navy', tooltip="Upper Left Corner").add_to(m)
@@ -76,7 +85,7 @@ m = folium.Map(location=centro, tiles=None, control_scale=True, zoom_start=9, mi
 #Tiles
 
 # white_BG = folium.TileLayer(tiles=branca.utilities.image_to_url([[1,1], [1,1]]), attr='W', name='White mode', overlay=False, control=True).add_to(m)    # fundo branco
-basemap_dark = folium.TileLayer('cartodbdark_matter', name = 'Basemap (escuro)', overlay=False, control=True, min_zoom=7).add_to(m)
+basemap_dark = folium.TileLayer('cartodbdark_matter', name='Basemap (escuro)', overlay=False, control=True, min_zoom=7).add_to(m)
 basemap_light = folium.TileLayer('cartodbpositron', name='Basemap (claro)', overlay=False, control=True, min_zoom=7).add_to(m)
 
 #Manter o basemap_light na frente
