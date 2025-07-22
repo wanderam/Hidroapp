@@ -7,7 +7,6 @@ import plotly.express as px
 import geopandas as gpd
 import matplotlib.pyplot as plt
 
-#ts
 
 
 #Configurando a página do app
