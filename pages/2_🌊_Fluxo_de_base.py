@@ -23,7 +23,7 @@ def load_data(file_path):
     df = pd.read_csv(file_path)
     return df
 
-df = load_data('pages/all2.csv')
+df = load_data('pages/all.csv')
 
 ################################################################
 
