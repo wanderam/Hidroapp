@@ -39,12 +39,12 @@ st.markdown(
 
         :green-background[**Instruções:**:point_down:]
 
-        * A página :ocean:**Escoamento de base** exibe as séries temporais de vazão e escoamento de base da bacia hidrográfica selecionada. As séries de escoamento de base foram
+        * A página :ocean:**Fluxo de base** exibe as séries temporais de vazão e escoamento de base da bacia hidrográfica selecionada. As séries de escoamento de base foram
         estimadas a partir de dados observados de vazão. O procedimento para separação foi realizado por meio da biblioteca Python ***Hydrograph-py*** ([Terink 2019](https://app.readthedocs.org/projects/hydrograph-py/downloads/pdf/latest/)).
-        * A página :earth_americas:**Recarga de aquifero** exibe os mapas de recarga de aquífero para a bacia hidrográfica selecionada. Os dados de recarga de aquífero foram estimados por meio
+        * A página :earth_americas:**Recarga** exibe os mapas de recarga de aquífero para a bacia hidrográfica selecionada. Os dados de recarga de aquífero foram estimados por meio
         do modelo hidrológico ***SWAT-MODFLOW*** ([Bailey et al. 2016](https://onlinelibrary.wiley.com/doi/full/10.1002/hyp.10933)).        
         * Utilize o mapa interativo :world_map: abaixo para localizar as **sub-bacias PCJ**, bem como visualizar sua hidrografia.
-        
+                
 
         """
     )
