@@ -5,6 +5,8 @@ import folium
 from streamlit_folium import st_folium
 # import branca
 
+#ts
+
 #Configurando a página do app
 st.set_page_config(
     page_title='Info',
