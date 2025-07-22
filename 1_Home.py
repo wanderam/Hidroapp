@@ -44,7 +44,7 @@ st.markdown(
         * A página :earth_americas:**Recarga de aquifero** exibe os mapas de recarga de aquífero para a bacia hidrográfica selecionada. Os dados de recarga de aquífero foram estimados por meio
         do modelo hidrológico ***SWAT-MODFLOW*** ([Bailey et al. 2016](https://onlinelibrary.wiley.com/doi/full/10.1002/hyp.10933)).        
         * Utilize o mapa interativo :world_map: abaixo para localizar as **sub-bacias PCJ**, bem como visualizar sua hidrografia.
-        
+        * Clique [aqui](https://www.iac.sp.gov.br/areadoinstituto/posgraduacao/agendaacademica.php) para ver o arquivo completo da tese.
 
         """
     )
