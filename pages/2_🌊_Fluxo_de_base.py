@@ -1,12 +1,9 @@
+#Bibliotecas necessárias
 import pandas as pd
 import streamlit as st
-# import datetime as dt
-# from datetime import datetime, timedelta
 import plotly.express as px
-# import plotly.graph_objects as go
 import geopandas as gpd
 import matplotlib.pyplot as plt
-
 
 
 #Configurando a página do app
@@ -183,7 +180,7 @@ fig.add_hline(y=mean_streamflow, line_color='red', line_width=1.0, line_dash='da
 
 fig.update_layout(
     title_text=f'Vazão e escoamento de base da bacia hidrográfica do rio {watershed_select}',
-    titlefont=dict(size=14, color='darkgray', family='Century Gothic')
+    titlefont=dict(size=14, color='darkgray', family='arial')
     )
 
 #Para alterar os nomes das variáveis
@@ -194,7 +191,7 @@ fig.for_each_trace(lambda t: t.update(name = newlabels[t.name],
                                           )
                   )
 
-#Para exibir o gráfico plotly no app streamlit
+#Exibir o gráfico plotly no app streamlit
 st.plotly_chart(graf_plotly, use_container_width=True)
 
 
@@ -214,5 +211,9 @@ def convert_df(df3):
 
 csv = convert_df(df3)
 
-#Exibir o botão para baixar o arquivo .csv
-st.download_button('Baixar csv', csv, f'{watershed_select}'+'_dataset'+'.csv', 'text/csv', key='browser-data')    # O rótulo do botão era: Download csv
+#Botão para baixar o arquivo .csv da bacia selecionada
+st.download_button(label='Baixar csv',
+                   data=csv,
+                   file_name=f'{watershed_select}'+'_series_sbf'+'.csv',
+                   mime='text/csv',
+                   key='browser-data')

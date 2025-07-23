@@ -42,7 +42,7 @@ st.markdown(
         * A página :ocean:**Fluxo de base** exibe as séries temporais de vazão e escoamento de base da bacia hidrográfica selecionada. As séries de escoamento de base foram
         estimadas a partir de dados observados de vazão. O procedimento para separação foi realizado por meio da biblioteca Python ***Hydrograph-py*** ([Terink 2019](https://app.readthedocs.org/projects/hydrograph-py/downloads/pdf/latest/)).
         * A página :earth_americas:**Recarga** exibe os mapas de recarga de aquífero para a bacia hidrográfica selecionada. Os dados de recarga de aquífero foram estimados por meio
-        do modelo hidrológico ***SWAT-MODFLOW*** ([Bailey et al. 2016](https://onlinelibrary.wiley.com/doi/full/10.1002/hyp.10933)).        
+        de técnicas de modelagem utilizando o modelo hidrológico ***SWAT-MODFLOW*** ([Bailey et al. 2016](https://onlinelibrary.wiley.com/doi/full/10.1002/hyp.10933)).        
         * Utilize o mapa interativo :world_map: abaixo para localizar as **sub-bacias PCJ**, bem como visualizar sua hidrografia.
                 
 
@@ -53,24 +53,23 @@ st.markdown(
 # * Clique [aqui](https://www.iac.sp.gov.br/areadoinstituto/posgraduacao/agendaacademica.php) para ver o arquivo completo da tese.
 
 st.caption('Autores: Wander A. Martins, Letícia L. Martins e Jener Fernando Leite de Moraes.')
-
-# st.markdown('Página do [Instituto Agronômico de Campinas](%s)' % 'https://www.iac.sp.gov.br/')
-# st.markdown('Página da [PG-IAC](%s)' % 'https://www.iac.sp.gov.br/areadoinstituto/posgraduacao/')
-    
+   
 ###############################################################################
 st.divider()
 
-
+#Título acima do mapa folium
 st.header('Sub-bacias PCJ')
 
+#Camadas das subs e hidrografia
 subs_pcj = gpd.read_file('subs_pcj.geojson')                # Camada original --> C:\Users\swat\Documents\app_vazao\subs_pcj.geojson
 drenagem = gpd.read_file('rede_drenagem.geojson')           # Camada de drenagem também está simplificada
 
-
+#Definindo o centro do mapa folium e lats longs máximas e mínimas
 centro = [-22.700, -47.150]
 min_lat, max_lat = -21.000, -25.000
 min_lon, max_lon = -45.000, -50.000
 
+#Criando o mapa folium
 m = folium.Map(location=centro, tiles=None, control_scale=True, zoom_start=9, min_zoom=7, scrollWheelZoom=True,
                dragging=True, zoom_control=True, max_bounds=True, min_lat=min_lat, max_lat=max_lat, min_lon=min_lon, max_lon=max_lon)
 
@@ -83,8 +82,7 @@ m = folium.Map(location=centro, tiles=None, control_scale=True, zoom_start=9, mi
 # folium.CircleMarker([max_lat, max_lon], color='navy', tooltip="Lower Left Corner").add_to(m)
 
 
-#Tiles
-
+#Definindo Tiles do folium
 # white_BG = folium.TileLayer(tiles=branca.utilities.image_to_url([[1,1], [1,1]]), attr='W', name='White mode', overlay=False, control=True).add_to(m)    # fundo branco
 basemap_dark = folium.TileLayer('cartodbdark_matter', name='Basemap (escuro)', overlay=False, control=True, min_zoom=7).add_to(m)
 basemap_light = folium.TileLayer('cartodbpositron', name='Basemap (claro)', overlay=False, control=True, min_zoom=7).add_to(m)
@@ -93,7 +91,8 @@ basemap_light = folium.TileLayer('cartodbpositron', name='Basemap (claro)', over
 m.keep_in_front(basemap_light)
 
 
-# Mapa das sub-bacias da PCJ
+#Configuração das camadas a serem mostradas no mapa
+
 #Função de estilo
 style_function = lambda x: {
                    'fillColor': '#e6e6e6',
@@ -112,7 +111,7 @@ def highlight_function(feature):
            }
 
 
-#Sub-bacias PCJ
+#Camada das sub-bacias PCJ
 folium.GeoJson(subs_pcj, name='Sub-bacias PCJ', control=True, show=True, zoom_on_click=False,
                tooltip = folium.GeoJsonTooltip(fields = ['SUBS'],
                                                aliases = ['SUB-BACIA:'],
@@ -129,7 +128,7 @@ folium.GeoJson(subs_pcj, name='Sub-bacias PCJ', control=True, show=True, zoom_on
                ).add_to(m)
 
 
-#Rede de drenagem
+#Hidrografia
 folium.GeoJson(drenagem, name='Drenagem', control=True, show=True, zoom_on_click=False,
                style_function = lambda x: {
                    'color': 'deepskyblue',
@@ -137,13 +136,13 @@ folium.GeoJson(drenagem, name='Drenagem', control=True, show=True, zoom_on_click
                    ).add_to(m)
 
 
-#Adicionar painel de controle de camadas
+#Adicionando um painel de controle de camadas
 folium.LayerControl(collapsed=False).add_to(m)
 
-
+#Adicionando o mapa folium ao app streamlit por meio da função st_folium()
 st_mapa = st_folium(m, width=1000, height=600, use_container_width=False, returned_objects=[])    # Ver sobre "returned_objects" em https://folium.streamlit.app/static_map
 
 
-#CRS da camada
+#Verificando o CRS da camada
 # crs = subs_pcj.crs
 # st.write(crs)

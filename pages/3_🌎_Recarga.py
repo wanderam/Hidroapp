@@ -1,9 +1,7 @@
+#Bibliotecas necessárias
 import streamlit as st
-# import folium
-# from streamlit_folium import st_folium
 import geopandas as gpd
 import matplotlib.pyplot as plt
-
 
 
 #Configurando a página do app
@@ -56,6 +54,7 @@ st.markdown("""
             
             :green-background[**Instruções:**:point_down:]
             * Utilize a caixa de seleção ao lado para selecionar a sub-bacia desejada.
+            * Visualize o mapa de recarga de aquífero da sub-bacia selecionada. Obs.: é possível baixar o mapa no formato .png.
             * **Observação:** Neste estudo, especificamente para a bacia hidrográfica do rio Atibaia, foi considerada apenas a região de cabeceira, devido à localização do posto fluviométrico, com uma área de 1.136,7 km$^{2}$.
 
             """)
@@ -63,7 +62,9 @@ st.markdown("""
 
 st.divider()
 
-col1, col2 = st.columns([0.6, 0.4])
+# st.columns(3, border=True)
+
+col1, col2 = st.columns([0.6, 0.4], vertical_alignment='center')
 
 with col1:
     atibaia_cabeceira_area = 1136.7
@@ -85,7 +86,7 @@ with col1:
 
 
     st.subheader(f'Bacia selecionada: :blue-background[{watershed_select}]')    #  | Área: :blue-background[{area_bacia} km$^{2}$]
-    st.image(recharge_map, width=700)
+    st.image(recharge_map, width=500)    # width inicial: 700
 
 
 #MAPA COM DESTAQUE DA SUB-BACIA SELECIONADA PELO USUÁRIO
@@ -114,7 +115,11 @@ bacia_destacada.plot(ax=ax, color='#87d4af', alpha=1.0, edgecolor='#01984f', lw=
 ax.text(0.6, 0.8, f'Área:\n{round(area_bacia_km2, 1)} km$^{2}$', transform=ax.transAxes, va='center', ha='center', color='k', fontsize=14, fontweight='ultralight', fontfamily='monospace', alpha=0.6)    # bbox=dict(facecolor='gray', alpha=0.5, edgecolor='k', ls='--', lw=0.8)
 ax.set_axis_off()
 
-
 with col2:
-    st.pyplot(fig)
+    st.pyplot(fig, use_container_width=True)
 
+#Botão para baixar o mapa de recarga da bacia selecionada
+st.download_button(label='Baixar mapa',
+                   data=open(recharge_map, 'rb').read(),
+                   file_name=f'{watershed_select}'+'_mapa_rec'+'.png',
+                   mime='image/png')
