@@ -123,3 +123,4 @@ st.download_button(label='Baixar mapa',
                    data=open(recharge_map, 'rb').read(),
                    file_name=f'{watershed_select}'+'_mapa_rec'+'.png',
                    mime='image/png')
+
