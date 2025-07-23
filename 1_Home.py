@@ -146,3 +146,4 @@ st_mapa = st_folium(m, width=1000, height=600, use_container_width=False, return
 #Verificando o CRS da camada
 # crs = subs_pcj.crs
 # st.write(crs)
+

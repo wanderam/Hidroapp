@@ -126,7 +126,14 @@ with col3:
     st.metric('Período de dados (anos)', value=diff)
 
     #Valor de BFI da bacia selecionada
-    st.metric('BFI médio', value=0)   # --> substituir variável BFI aqui
+    df_bfi = df3.copy(deep=True)
+    df_bfi.drop(columns=['Date', 'Bacia', 'Area'], inplace=True)
+    df_bfi['BFI'] = df_bfi.apply(lambda x: ((x['baseflow'] / x['streamflow']) * 100), axis=1)
+    df_bfi.loc['Media'] = df_bfi.mean(axis=0)
+    bfi = df_bfi.iloc[-1, -1]
+    bfi = round(bfi, 2)
+    
+    st.metric('BFI médio (%)', value=bfi)
 
 
 #MAPA COM DESTAQUE DA SUB-BACIA SELECIONADA PELO USUÁRIO
@@ -217,3 +224,4 @@ st.download_button(label='Baixar csv',
                    file_name=f'{watershed_select}'+'_series_sbf'+'.csv',
                    mime='text/csv',
                    key='browser-data')
+
