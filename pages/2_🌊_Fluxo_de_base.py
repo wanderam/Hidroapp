@@ -119,20 +119,19 @@ with col2:
 
 
 with col3:
-    #Indicando o período, em anos, disponível de dados para a bacia selecionada
+    #Indicando o período disponível de dados para a bacia selecionada (em anos)
     start_date = df2['Date'].min()
     end_date = df2['Date'].max()
     diff = (end_date.year - start_date.year) + 1
     st.metric('Período de dados (anos)', value=diff)
 
-    #Valor de BFI da bacia selecionada
+    #Calculando o valor de Baseflow index (BFI) da bacia e do período selecionados
     df_bfi = df3.copy(deep=True)
     df_bfi.drop(columns=['Date', 'Bacia', 'Area'], inplace=True)
     df_bfi['BFI'] = df_bfi.apply(lambda x: ((x['baseflow'] / x['streamflow']) * 100), axis=1)
     df_bfi.loc['Media'] = df_bfi.mean(axis=0)
     bfi = df_bfi.iloc[-1, -1]
     bfi = round(bfi, 2)
-    
     st.metric('BFI médio (%)', value=bfi)
 
 

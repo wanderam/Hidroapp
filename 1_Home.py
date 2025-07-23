@@ -52,7 +52,7 @@ st.markdown(
 #Link da tese:
 # * Clique [aqui](https://www.iac.sp.gov.br/areadoinstituto/posgraduacao/agendaacademica.php) para ver o arquivo completo da tese.
 
-st.caption('Autores: Wander A. Martins, Letícia L. Martins e Jener Fernando Leite de Moraes.')
+st.caption('Autores: Wander A Martins, Letícia L. Martins e Jener Fernando Leite de Moraes.')
    
 ###############################################################################
 st.divider()
