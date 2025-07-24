@@ -33,7 +33,7 @@ sidebar = st.sidebar.empty()
 
 ################################################################
 #Selectbox de seleção da bacia
-st.sidebar.header('Escolha uma bacia')
+st.sidebar.header('Bacia hidrográfica')
 watershed_select = st.sidebar.selectbox('Selecione', watersheds)
 
 #Filtro de bacia
@@ -49,7 +49,9 @@ end_date = df2['Date'].max()
 
 
 #Date input da data inicial e final
-st.sidebar.header('Selecione um período')
+st.sidebar.header('Período')
+st.sidebar.text(f'Selecione um período entre\n{start_date.strftime('%d/%b/%Y')} e {end_date.strftime('%d/%b/%Y')}')
+
 from_date = st.sidebar.date_input('de:', value=start_date)
 
 def show_success():
@@ -69,6 +71,8 @@ df3 = df2[df2['Date'].between(from_date, to_date)]
 #Configurando o formato da data no df
 data_formatada = df3['Date'].dt.strftime('%Y-%m-%d')    # %Y/%b/%d --> Sigla do mês    %Y-%m-%d --> Número do mês
 df3['Date'] = data_formatada[0:]
+
+
 ###############################################################################
 #Elementos da página principal
 
